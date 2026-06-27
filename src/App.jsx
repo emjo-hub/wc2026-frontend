@@ -2,6 +2,8 @@ import { useState, useCallback } from "react";
 import axios from "axios";
 
 const API = "https://wc2026-backend-delta.vercel.app";
+const SIMULATE_URL = "https://wc2026-backend-delta.vercel.app/api/simulate";
+const MC_URL = "https://wc2026-backend-delta.vercel.app/api/montecarlo";
 
 const TEAMS = {
   "Argentina":      {f:"🇦🇷",g:"J",r:1, e:2088},
@@ -81,7 +83,7 @@ export default function App() {
     if (!canSim) return;
     setLoading(true); setResult(null); setMc(null); setNarrative(""); setError(null);
     try {
-      const { data } = await axios.post(`${API}/api/simulate`, {
+      const { data } = await axios.post(SIMULATE_URL, {
         teamA: na, teamB: nb,
         context: { weather: cw, phase: cp, rest: cr }
       });
@@ -117,7 +119,7 @@ export default function App() {
     if (!result) return;
     setMcLoading(true);
     try {
-      const { data } = await axios.post(`${API}/api/montecarlo`, {
+      const { data } = await axios.post(MC_URL, {
         muA: result.model.muA, muB: result.model.muB
       });
       setMc(data);
