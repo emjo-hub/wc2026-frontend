@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import axios from "axios";
 
-const API = "https://wc2026-backend-delta.vercel.app";
+const API = "https://wc2026-backend-bgmd.vercel.app";
 const SIMULATE_URL = "https://wc2026-backend-delta.vercel.app/api/simulate";
 const MC_URL = "https://wc2026-backend-delta.vercel.app/api/montecarlo";
 
