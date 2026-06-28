@@ -367,7 +367,7 @@ export default function App() {
           )}
 
           <div style={{fontSize:10,color:MUTED,textAlign:"center",borderTop:`1px solid ${BRD}`,paddingTop:12,lineHeight:1.7,marginTop:8}}>
-            Dixon-Coles · Elo FIFA Jun 2026 · Monte Carlo 25k · Supabase · Solo simulación estadística
+            Dixon-Coles · Elo FIFA Jun 2026 · Monte Carlo 50k · Supabase · Solo simulación estadística
           </div>
         </div>
       )}
