@@ -226,6 +226,13 @@ export default function App() {
                 <div style={{fontSize:11,color:GOLD,marginTop:5}}>
                   {result.result.ga>result.result.gb?`Victoria ${na}`:result.result.gb>result.result.ga?`Victoria ${nb}`:"Empate"}
                 </div>
+                {result.result.extraTime && (
+                  <div style={{fontSize:10,color:'#93c5fd',marginTop:3}}>
+                    {result.result.penalties
+                      ? `⚽ Penales — Gana ${result.result.penaltyWinner==='a'?na:nb}`
+                      : '⏱ Prórroga'}
+                  </div>
+                )}  
               </div>
               <div style={{flex:1,textAlign:"center"}}>
                 <div style={{fontSize:38,marginBottom:4}}>{TEAMS[nb]?.f}</div>
