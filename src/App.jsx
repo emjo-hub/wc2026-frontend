@@ -327,7 +327,7 @@ export default function App() {
               <div style={{fontSize:10,color:MUTED,letterSpacing:3,textTransform:"uppercase",borderLeft:`2px solid ${GOLD}`,paddingLeft:7,margin:"14px 0 8px"}}>Monte Carlo — 50.000 simulaciones</div>
               <div style={{background:S1,border:`1px solid ${BRD}`,borderRadius:8,padding:"12px 14px",marginBottom:10}}>
                 <div style={{background:"rgba(59,111,212,.07)",border:`1px solid ${ACC}`,borderRadius:5,padding:"7px 10px",marginBottom:10,fontSize:11,color:"#93c5fd",lineHeight:1.5}}>
-                  💡 Distribución de 25.000 partidos con los mismos λ. El marcador individual es una muestra de esta distribución.
+                  💡 Distribución de 50.000 partidos con los mismos λ. El marcador individual es una muestra de esta distribución.
                 </div>
                 <div style={{display:"flex",gap:6,marginBottom:10}}>
                   {[{l:na,v:mc.probabilities.winA,col:BLUE},{l:"Empate",v:mc.probabilities.draw,col:GOLD},{l:nb,v:mc.probabilities.winB,col:RED}].map((x,i)=>(
