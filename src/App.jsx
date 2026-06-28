@@ -324,7 +324,7 @@ export default function App() {
           {/* Monte Carlo */}
           {mc && (
             <>
-              <div style={{fontSize:10,color:MUTED,letterSpacing:3,textTransform:"uppercase",borderLeft:`2px solid ${GOLD}`,paddingLeft:7,margin:"14px 0 8px"}}>Monte Carlo — 10.000 simulaciones</div>
+              <div style={{fontSize:10,color:MUTED,letterSpacing:3,textTransform:"uppercase",borderLeft:`2px solid ${GOLD}`,paddingLeft:7,margin:"14px 0 8px"}}>Monte Carlo — 25.000 simulaciones</div>
               <div style={{background:S1,border:`1px solid ${BRD}`,borderRadius:8,padding:"12px 14px",marginBottom:10}}>
                 <div style={{background:"rgba(59,111,212,.07)",border:`1px solid ${ACC}`,borderRadius:5,padding:"7px 10px",marginBottom:10,fontSize:11,color:"#93c5fd",lineHeight:1.5}}>
                   💡 Distribución de 10.000 partidos con los mismos λ. El marcador individual es una muestra de esta distribución.
