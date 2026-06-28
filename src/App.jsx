@@ -187,7 +187,7 @@ export default function App() {
 
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:6,marginBottom:10}}>
           {sl("Condición",[[1,"Normal"],[0.95,"Calor"],[0.97,"Lluvia"],[0.92,"Altitud CDMX"]],cw,setCw)}
-          {sl("Fase",[[1,"Grupos"],[1.05,"Octavos"],[1.08,"Cuartos"],[1.12,"Semifinal"],[1.15,"Final"]],cp,setCp)}
+          {sl("Fase",[[1,"Grupos"],[1.03,"32avos"],[1.05,"16avos"],[1.08,"Cuartos"],[1.12,"Semifinal"],[1.15,"Final"]],cp,setCp)}
           {sl("Descanso",[[1,"Normal"],[0.96,"Corto"],[0.92,"Mínimo"]],cr,setCr)}
         </div>
 
