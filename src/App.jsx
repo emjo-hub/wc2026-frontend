@@ -321,9 +321,9 @@ export default function App() {
             </div>
           </div>
 
- {/* Monte Carlo */}
+{/* Monte Carlo */}
           {mc && (
-            <>
+            <div style={{padding:"0 0"}}>
               <div style={{fontSize:10,color:MUTED,letterSpacing:3,textTransform:"uppercase",borderLeft:`2px solid ${GOLD}`,paddingLeft:7,margin:"14px 0 8px"}}>Monte Carlo — 50.000 simulaciones</div>
               <div style={{background:S1,border:`1px solid ${BRD}`,borderRadius:8,padding:"12px 14px",marginBottom:10}}>
                 <div style={{background:"rgba(59,111,212,.07)",border:`1px solid ${ACC}`,borderRadius:5,padding:"7px 10px",marginBottom:10,fontSize:11,color:"#93c5fd",lineHeight:1.5}}>
@@ -339,12 +339,8 @@ export default function App() {
                 </div>
                 <div style={{background:"rgba(240,180,41,.08)",border:`1px solid ${GOLD}`,borderRadius:6,padding:"10px 14px",marginBottom:10,textAlign:"center"}}>
                   <div style={{fontSize:10,color:MUTED,letterSpacing:2,textTransform:"uppercase",marginBottom:4}}>Marcador más probable</div>
-                  <div style={{fontSize:28,fontWeight:900,color:GOLD}}>
-                    {mc.mostLikelyScore?.ga} — {mc.mostLikelyScore?.gb}
-                  </div>
-                  <div style={{fontSize:11,color:MUTED,marginTop:2}}>
-                    {mc.mostLikelyScore?.pct}% de 50.000 simulaciones
-                  </div>
+                  <div style={{fontSize:28,fontWeight:900,color:GOLD}}>{mc.mostLikelyScore?.ga} — {mc.mostLikelyScore?.gb}</div>
+                  <div style={{fontSize:11,color:MUTED,marginTop:2}}>{mc.mostLikelyScore?.pct}% de 50.000 simulaciones</div>
                 </div>
                 <div style={{fontSize:10,color:MUTED,marginBottom:6}}>Marcadores más frecuentes</div>
                 <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:5}}>
@@ -356,18 +352,7 @@ export default function App() {
                   ))}
                 </div>
               </div>
-            </>
-          )}
-                <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:5}}>
-                  {mc.topScores.map(({score,pct},i)=>(
-                    <div key={i} style={{background:S2,borderRadius:5,padding:"6px 4px",textAlign:"center"}}>
-                      <div style={{fontSize:15,fontWeight:700,color:TXT}}>{score}</div>
-                      <div style={{fontSize:9,color:MUTED,marginTop:1}}>{pct}%</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </>
+            </div>
           )}
 
           {/* Narrative */}
