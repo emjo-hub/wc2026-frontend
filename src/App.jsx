@@ -237,6 +237,9 @@ export default function App() {
                       : '⏱ Prórroga'}
                   </div>
                 )}  
+                              <div style={{background:"rgba(59,111,212,.07)",border:`1px solid ${ACC}`,borderRadius:5,padding:"8px 12px",marginTop:10,fontSize:11,color:"#93c5fd",textAlign:"center",lineHeight:1.8}}>
+                  <span style={{color:BLUE,fontWeight:700}}>{na}</span> μ={result.model.muA} · <span style={{color:RED,fontWeight:700}}>{nb}</span> μ={result.model.muB} · <span style={{color:GOLD}}>Goles esperados: {result.model.expectedGoals}</span>
+                </div>
               </div>
               <div style={{flex:1,textAlign:"center"}}>
                 <div style={{fontSize:38,marginBottom:4}}>{TEAMS[nb]?.f}</div>
