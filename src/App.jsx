@@ -120,12 +120,16 @@ export default function App() {
     setMcLoading(true);
     try {
       const { data } = await axios.post(MC_URL, {
-        muA: result.model.muA,
-        muB: result.model.muB,
-        isKnockout: cp >= 1.05,
-        eloA: result.teams.a.elo,
-        eloB: result.teams.b.elo
-      });
+  muA: result.model.muA,
+  muB: result.model.muB,
+  isKnockout: cp >= 1.05,
+  eloA: result.teams.a.elo,
+  eloB: result.teams.b.elo,
+  possA: result.stats.possession.a,
+  possB: result.stats.possession.b,
+  ppdaA: result.stats.ppda.a,
+  ppdaB: result.stats.ppda.b
+});
       setMc(data);
     } catch {} finally { setMcLoading(false); }
   }, [result]);
@@ -281,6 +285,44 @@ export default function App() {
 
           {/* Corners */}
           <div style={{fontSize:10,color:MUTED,letterSpacing:3,textTransform:"uppercase",borderLeft:`2px solid ${GOLD}`,paddingLeft:7,margin:"14px 0 8px"}}>Esquinas</div>
+          {mc && mc.cornerStats && (
+  <>
+    <div style={{fontSize:10,color:MUTED,letterSpacing:3,textTransform:"uppercase",borderLeft:`2px solid ${GOLD}`,paddingLeft:7,margin:"14px 0 8px"}}>Corner Carlo — 50.000 simulaciones</div>
+    <div style={{background:S1,border:`1px solid ${BRD}`,borderRadius:8,padding:"12px 14px",marginBottom:10}}>
+      <div style={{textAlign:"center",marginBottom:10}}>
+        <div style={{fontSize:10,color:MUTED,textTransform:"uppercase",letterSpacing:2,marginBottom:4}}>Total corners más probable</div>
+        <div style={{fontSize:32,fontWeight:900,color:GOLD}}>{mc.cornerStats.mostLikelyTotal}</div>
+      </div>
+      <div style={{fontSize:10,color:MUTED,marginBottom:6}}>Distribución total corners</div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:5,marginBottom:10}}>
+        {mc.cornerStats.topTotals.map(({value,pct},i)=>(
+          <div key={i} style={{background:S2,borderRadius:5,padding:"6px 4px",textAlign:"center"}}>
+            <div style={{fontSize:15,fontWeight:700,color:TXT}}>{value}</div>
+            <div style={{fontSize:9,color:MUTED,marginTop:1}}>{pct}%</div>
+          </div>
+        ))}
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
+        <div>
+          <div style={{fontSize:10,color:BLUE,marginBottom:4}}>{na} — corners</div>
+          {mc.cornerStats.topA.map(({value,pct},i)=>(
+            <div key={i} style={{display:"flex",justifyContent:"space-between",fontSize:11,color:TXT,marginBottom:2}}>
+              <span>{value} corners</span><span style={{color:MUTED}}>{pct}%</span>
+            </div>
+          ))}
+        </div>
+        <div>
+          <div style={{fontSize:10,color:RED,marginBottom:4}}>{nb} — corners</div>
+          {mc.cornerStats.topB.map(({value,pct},i)=>(
+            <div key={i} style={{display:"flex",justifyContent:"space-between",fontSize:11,color:TXT,marginBottom:2}}>
+              <span>{value} corners</span><span style={{color:MUTED}}>{pct}%</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </>
+)}
           <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:8}}>
             {[{flag:TEAMS[na]?.f,name:na,c1:result.corners.c1a,c2:result.corners.c2a,ct:result.corners.cta,col:BLUE},{flag:TEAMS[nb]?.f,name:nb,c1:result.corners.c1b,c2:result.corners.c2b,ct:result.corners.ctb,col:RED}].map((t,i)=>(
               <div key={i} style={{background:S2,border:`1px solid ${BRD}`,borderRadius:7,padding:10}}>
