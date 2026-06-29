@@ -62,7 +62,7 @@ NAMES.forEach(n => { const g = TEAMS[n].g; if (!groups[g]) groups[g] = []; group
 
 const BG="#080c14",S1="#0f1623",S2="#161f30",BRD="#1e2d47",
       TXT="#dde4f0",MUTED="#6b7a96",GOLD="#f0b429",
-      BLUE="#3b82f6",RED="#ef4444",ACC="#3b6fd4",PUR="#a78bfa",GREEN="#34d399";
+      BLUE="#3b82f6",RED="#ef4444",ACC="#3b6fd4",PUR="#a78bfa";
 
 export default function App() {
   const [na, setNa] = useState(null);
@@ -120,19 +120,19 @@ export default function App() {
     setMcLoading(true);
     try {
       const { data } = await axios.post(MC_URL, {
-  muA: result.model.muA,
-  muB: result.model.muB,
-  isKnockout: cp >= 1.05,
-  eloA: result.teams.a.elo,
-  eloB: result.teams.b.elo,
-  possA: result.stats.possession.a,
-  possB: result.stats.possession.b,
-  ppdaA: result.stats.ppda.a,
-  ppdaB: result.stats.ppda.b
-});
+        muA: result.model.muA,
+        muB: result.model.muB,
+        isKnockout: cp >= 1.05,
+        eloA: result.teams.a.elo,
+        eloB: result.teams.b.elo,
+        possA: result.stats.possession.a,
+        possB: result.stats.possession.b,
+        ppdaA: result.stats.ppda.a,
+        ppdaB: result.stats.ppda.b
+      });
       setMc(data);
     } catch {} finally { setMcLoading(false); }
-  }, [result]);
+  }, [result, cp]);
 
   const reset = () => { setResult(null); setMc(null); setNarrative(""); setError(null); };
 
@@ -210,7 +210,7 @@ export default function App() {
         {result && !loading && (
           <div style={{display:"flex",gap:8}}>
             <button style={{flex:1,background:"transparent",border:`1px solid ${BRD}`,color:MUTED,fontSize:11,padding:"8px",borderRadius:6,cursor:"pointer"}} onClick={reset}>↺ Reiniciar</button>
-            <button style={{flex:1,background:"transparent",border:`1px solid ${BRD}`,color:MUTED,fontSize:11,padding:"8px",borderRadius:6,cursor:"pointer",opacity:mcLoading?.5:1}} onClick={doMC} disabled={mcLoading}>{mcLoading?"⏳...":"🎲 Monte Carlo 50k"}</button>
+            <button style={{flex:1,background:"transparent",border:`1px solid ${BRD}`,color:MUTED,fontSize:11,padding:"8px",borderRadius:6,cursor:"pointer",opacity:mcLoading?0.5:1}} onClick={doMC} disabled={mcLoading}>{mcLoading?"⏳...":"🎲 Monte Carlo 50k"}</button>
           </div>
         )}
       </div>
@@ -218,6 +218,7 @@ export default function App() {
       {/* RESULT */}
       {result && (
         <div style={{padding:"0 14px",maxWidth:540,margin:"0 auto"}}>
+
           {/* Scoreboard */}
           <div style={{background:"linear-gradient(180deg,#0b1525,#0f1623)",borderBottom:`1px solid ${BRD}`,padding:"22px 12px 14px",textAlign:"center",marginBottom:12}}>
             <div style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
@@ -240,8 +241,8 @@ export default function App() {
                       ? `⚽ Penales — Gana ${result.result.penaltyWinner==='a'?na:nb}`
                       : '⏱ Prórroga'}
                   </div>
-                )}  
-                              <div style={{background:"rgba(59,111,212,.07)",border:`1px solid ${ACC}`,borderRadius:5,padding:"8px 12px",marginTop:10,fontSize:11,color:"#93c5fd",textAlign:"center",lineHeight:1.8}}>
+                )}
+                <div style={{background:"rgba(59,111,212,.07)",border:`1px solid ${ACC}`,borderRadius:5,padding:"8px 12px",marginTop:10,fontSize:11,color:"#93c5fd",textAlign:"center",lineHeight:1.8}}>
                   <span style={{color:BLUE,fontWeight:700}}>{na}</span> μ={result.model.muA} · <span style={{color:RED,fontWeight:700}}>{nb}</span> μ={result.model.muB} · <span style={{color:GOLD}}>Goles esperados: {result.model.expectedGoals}</span>
                 </div>
               </div>
@@ -285,44 +286,6 @@ export default function App() {
 
           {/* Corners */}
           <div style={{fontSize:10,color:MUTED,letterSpacing:3,textTransform:"uppercase",borderLeft:`2px solid ${GOLD}`,paddingLeft:7,margin:"14px 0 8px"}}>Esquinas</div>
-          {mc && mc.cornerStats && (
-  <>
-    <div style={{fontSize:10,color:MUTED,letterSpacing:3,textTransform:"uppercase",borderLeft:`2px solid ${GOLD}`,paddingLeft:7,margin:"14px 0 8px"}}>Corner Carlo — 50.000 simulaciones</div>
-    <div style={{background:S1,border:`1px solid ${BRD}`,borderRadius:8,padding:"12px 14px",marginBottom:10}}>
-      <div style={{textAlign:"center",marginBottom:10}}>
-        <div style={{fontSize:10,color:MUTED,textTransform:"uppercase",letterSpacing:2,marginBottom:4}}>Total corners más probable</div>
-        <div style={{fontSize:32,fontWeight:900,color:GOLD}}>{mc.cornerStats.mostLikelyTotal}</div>
-      </div>
-      <div style={{fontSize:10,color:MUTED,marginBottom:6}}>Distribución total corners</div>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:5,marginBottom:10}}>
-        {mc.cornerStats.topTotals.map(({value,pct},i)=>(
-          <div key={i} style={{background:S2,borderRadius:5,padding:"6px 4px",textAlign:"center"}}>
-            <div style={{fontSize:15,fontWeight:700,color:TXT}}>{value}</div>
-            <div style={{fontSize:9,color:MUTED,marginTop:1}}>{pct}%</div>
-          </div>
-        ))}
-      </div>
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
-        <div>
-          <div style={{fontSize:10,color:BLUE,marginBottom:4}}>{na} — corners</div>
-          {mc.cornerStats.topA.map(({value,pct},i)=>(
-            <div key={i} style={{display:"flex",justifyContent:"space-between",fontSize:11,color:TXT,marginBottom:2}}>
-              <span>{value} corners</span><span style={{color:MUTED}}>{pct}%</span>
-            </div>
-          ))}
-        </div>
-        <div>
-          <div style={{fontSize:10,color:RED,marginBottom:4}}>{nb} — corners</div>
-          {mc.cornerStats.topB.map(({value,pct},i)=>(
-            <div key={i} style={{display:"flex",justifyContent:"space-between",fontSize:11,color:TXT,marginBottom:2}}>
-              <span>{value} corners</span><span style={{color:MUTED}}>{pct}%</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  </>
-)}
           <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:8}}>
             {[{flag:TEAMS[na]?.f,name:na,c1:result.corners.c1a,c2:result.corners.c2a,ct:result.corners.cta,col:BLUE},{flag:TEAMS[nb]?.f,name:nb,c1:result.corners.c1b,c2:result.corners.c2b,ct:result.corners.ctb,col:RED}].map((t,i)=>(
               <div key={i} style={{background:S2,border:`1px solid ${BRD}`,borderRadius:7,padding:10}}>
@@ -349,6 +312,46 @@ export default function App() {
             </div>
           </div>
 
+          {/* Corner Carlo */}
+          {mc && mc.cornerStats && (
+            <div>
+              <div style={{fontSize:10,color:MUTED,letterSpacing:3,textTransform:"uppercase",borderLeft:`2px solid ${GOLD}`,paddingLeft:7,margin:"14px 0 8px"}}>Corner Carlo — 50.000 simulaciones</div>
+              <div style={{background:S1,border:`1px solid ${BRD}`,borderRadius:8,padding:"12px 14px",marginBottom:10}}>
+                <div style={{textAlign:"center",marginBottom:10}}>
+                  <div style={{fontSize:10,color:MUTED,textTransform:"uppercase",letterSpacing:2,marginBottom:4}}>Total corners más probable</div>
+                  <div style={{fontSize:32,fontWeight:900,color:GOLD}}>{mc.cornerStats.mostLikelyTotal}</div>
+                </div>
+                <div style={{fontSize:10,color:MUTED,marginBottom:6}}>Distribución total corners</div>
+                <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:5,marginBottom:10}}>
+                  {mc.cornerStats.topTotals.map(({value,pct},i)=>(
+                    <div key={i} style={{background:S2,borderRadius:5,padding:"6px 4px",textAlign:"center"}}>
+                      <div style={{fontSize:15,fontWeight:700,color:TXT}}>{value}</div>
+                      <div style={{fontSize:9,color:MUTED,marginTop:1}}>{pct}%</div>
+                    </div>
+                  ))}
+                </div>
+                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
+                  <div>
+                    <div style={{fontSize:10,color:BLUE,marginBottom:4}}>{na} — corners</div>
+                    {mc.cornerStats.topA.map(({value,pct},i)=>(
+                      <div key={i} style={{display:"flex",justifyContent:"space-between",fontSize:11,color:TXT,marginBottom:2}}>
+                        <span>{value} corners</span><span style={{color:MUTED}}>{pct}%</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div>
+                    <div style={{fontSize:10,color:RED,marginBottom:4}}>{nb} — corners</div>
+                    {mc.cornerStats.topB.map(({value,pct},i)=>(
+                      <div key={i} style={{display:"flex",justifyContent:"space-between",fontSize:11,color:TXT,marginBottom:2}}>
+                        <span>{value} corners</span><span style={{color:MUTED}}>{pct}%</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Elo */}
           <div style={{fontSize:10,color:MUTED,letterSpacing:3,textTransform:"uppercase",borderLeft:`2px solid ${GOLD}`,paddingLeft:7,margin:"14px 0 8px"}}>Modelo Elo</div>
           <div style={{background:S1,border:`1px solid ${BRD}`,borderRadius:8,padding:"12px 14px",marginBottom:10}}>
@@ -370,9 +373,9 @@ export default function App() {
             </div>
           </div>
 
-{/* Monte Carlo */}
+          {/* Monte Carlo */}
           {mc && (
-            <div style={{padding:"0 0"}}>
+            <div>
               <div style={{fontSize:10,color:MUTED,letterSpacing:3,textTransform:"uppercase",borderLeft:`2px solid ${GOLD}`,paddingLeft:7,margin:"14px 0 8px"}}>Monte Carlo — 50.000 simulaciones</div>
               <div style={{background:S1,border:`1px solid ${BRD}`,borderRadius:8,padding:"12px 14px",marginBottom:10}}>
                 <div style={{background:"rgba(59,111,212,.07)",border:`1px solid ${ACC}`,borderRadius:5,padding:"7px 10px",marginBottom:10,fontSize:11,color:"#93c5fd",lineHeight:1.5}}>
@@ -406,13 +409,13 @@ export default function App() {
 
           {/* Narrative */}
           {narrative && (
-            <>
+            <div>
               <div style={{fontSize:10,color:MUTED,letterSpacing:3,textTransform:"uppercase",borderLeft:`2px solid ${GOLD}`,paddingLeft:7,margin:"14px 0 8px"}}>Análisis de la IA</div>
               <div style={{background:S1,border:"1px solid #2a4a7f",borderRadius:8,padding:"14px",marginBottom:10,position:"relative"}}>
                 <div style={{position:"absolute",top:9,right:11,fontSize:9,color:ACC,letterSpacing:1}}>ANÁLISIS · CLAUDE</div>
                 <div style={{fontSize:13,lineHeight:1.8,color:"#b8c8e4",whiteSpace:"pre-wrap"}}>{narrative}</div>
               </div>
-            </>
+            </div>
           )}
 
           <div style={{fontSize:10,color:MUTED,textAlign:"center",borderTop:`1px solid ${BRD}`,paddingTop:12,lineHeight:1.7,marginTop:8}}>
