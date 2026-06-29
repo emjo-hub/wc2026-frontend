@@ -120,7 +120,11 @@ export default function App() {
     setMcLoading(true);
     try {
       const { data } = await axios.post(MC_URL, {
-        muA: result.model.muA, muB: result.model.muB
+        muA: result.model.muA,
+        muB: result.model.muB,
+        isKnockout: cp >= 1.05,
+        eloA: result.teams.a.elo,
+        eloB: result.teams.b.elo
       });
       setMc(data);
     } catch {} finally { setMcLoading(false); }
