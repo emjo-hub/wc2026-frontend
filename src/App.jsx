@@ -206,7 +206,7 @@ export default function App() {
         {result && !loading && (
           <div style={{display:"flex",gap:8}}>
             <button style={{flex:1,background:"transparent",border:`1px solid ${BRD}`,color:MUTED,fontSize:11,padding:"8px",borderRadius:6,cursor:"pointer"}} onClick={reset}>↺ Reiniciar</button>
-            <button style={{flex:1,background:"transparent",border:`1px solid ${BRD}`,color:MUTED,fontSize:11,padding:"8px",borderRadius:6,cursor:"pointer",opacity:mcLoading?.5:1}} onClick={doMC} disabled={mcLoading}>{mcLoading?"⏳...":"🎲 Monte Carlo 25k"}</button>
+            <button style={{flex:1,background:"transparent",border:`1px solid ${BRD}`,color:MUTED,fontSize:11,padding:"8px",borderRadius:6,cursor:"pointer",opacity:mcLoading?.5:1}} onClick={doMC} disabled={mcLoading}>{mcLoading?"⏳...":"🎲 Monte Carlo 50k"}</button>
           </div>
         )}
       </div>
